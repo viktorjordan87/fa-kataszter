@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
-import { Sidebar as PrimeSidebar } from "primereact/sidebar";
+// import { Sidebar as PrimeSidebar } from "primereact/sidebar";
 
 //core
 import "primereact/resources/primereact.min.css";
