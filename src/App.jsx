@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+import { Sidebar as PrimeSidebar } from "primereact/sidebar";
+
 //core
 import "primereact/resources/primereact.min.css";
 
@@ -134,11 +136,12 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 	};
 
 	const resetSorszamClick = () => {
+		setSorszam("");
 		setTrees(datas);
 	};
 
 	/* Parkrészlet options */
-	const parkreszletOptions = [...new Set(datas.map((tree) => tree.properties.kapcsolodo))];
+	const parkreszletOptions = [...new Set(datas.map((tree) => tree.properties.parkreszlet))];
 	const [parkreszlet, setParkreszlet] = useState(null);
 
 	useEffect(() => {
@@ -391,7 +394,7 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 				<Dropdown
 					value={orokbefogado}
 					onChange={(e) => setOrokbefogado(e.value)}
-					options={orokbefogadoOptions}
+					options={[...new Set(orokbefogadoOptions)]}
 					htmlFor="orokbefogado"
 					showClear
 					placeholder="Válassz"
@@ -409,7 +412,7 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 				<Dropdown
 					value={kivagas}
 					onChange={(e) => setKivagas(e.value)}
-					options={kivagasOptions}
+					options={[...new Set(kivagasOptions)]}
 					htmlFor="kivagas"
 					showClear
 					placeholder="Válassz"
@@ -425,6 +428,11 @@ function App() {
 	const [trees, setTrees] = useState([]);
 	/* For basic datas that are not modified */
 	const [datas, setDatas] = useState([]);
+	console.log(datas);
+
+	/* Mobile sidebar */
+	// const [visible, setVisible] = useState(false);
+	// const screenSize = window.screen.width <= 800;
 
 	const getData = async () => {
 		const response = await fetch("https://fakataszter.s3.eu-central-1.amazonaws.com/fakataszter.geojson");
@@ -454,6 +462,7 @@ function App() {
 
 				{trees.map((tree, index) => {
 					const position = tree.geometry.coordinates;
+					console.log(tree.properties.sorszam, position);
 
 					return (
 						<Marker
@@ -467,6 +476,7 @@ function App() {
 					);
 				})}
 			</MapContainer>
+
 			<Sidebar
 				datas={datas}
 				trees={trees}
