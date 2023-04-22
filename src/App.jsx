@@ -7,6 +7,9 @@ import { Button } from "primereact/button";
 //core
 import "primereact/resources/primereact.min.css";
 
+//style
+import "primereact/resources/themes/lara-light-blue/theme.css";
+
 //icons
 import "primeicons/primeicons.css";
 
@@ -118,14 +121,21 @@ const Content = ({ tree }) => {
 };
 
 const Sidebar = ({ datas, trees, setTrees }) => {
+	/* sorszam */
 	const [sorszam, setSorszam] = useState();
 
-	useEffect(() => {
+	const handleSorszamClick = () => {
 		if (sorszam) {
 			const newTrees = datas.filter((tree) => Number(tree.properties.sorszam) === Number(sorszam));
 			setTrees(newTrees);
+		} else {
+			setTrees(datas);
 		}
-	}, [sorszam]);
+	};
+
+	const resetSorszamClick = () => {
+		setTrees(datas);
+	};
 
 	/* Parkrészlet options */
 	const parkreszletOptions = [...new Set(datas.map((tree) => tree.properties.kapcsolodo))];
@@ -135,17 +145,123 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 		if (parkreszlet) {
 			const newTrees = datas.filter((tree) => tree.properties.kapcsolodo === parkreszlet);
 			setTrees(newTrees);
+		} else {
+			setTrees(datas);
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [parkreszlet]);
+
+	/* Fajta options */
+	const fajtaOptions = [...new Set(datas.map((tree) => tree.properties.fajta))];
+	const [fajta, setFajta] = useState(null);
+
+	useEffect(() => {
+		if (fajta) {
+			const newTrees = datas.filter((tree) => tree.properties.fajta === fajta);
+			setTrees(newTrees);
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [fajta]);
+
+	/* Típus options */
+	const tipusOptions = [...new Set(datas.map((tree) => tree.properties.tipus))];
+	const [tipus, setTipus] = useState(null);
+
+	useEffect(() => {
+		if (tipus) {
+			const newTrees = datas.filter((tree) => tree.properties.tipus === tipus);
+			setTrees(newTrees);
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [tipus]);
+
+	/* jellegzetes options */
+	const jellegzetesOptions = [...new Set(datas.map((tree) => tree.properties.jellegzetes))];
+	const [jellegzetes, setJellegzetes] = useState(null);
+
+	useEffect(() => {
+		if (jellegzetes) {
+			const newTrees = datas.filter((tree) => tree.properties.jellegzetes === jellegzetes);
+			setTrees(newTrees);
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [jellegzetes]);
+
+	/* oshonos options */
+	const oshonosOptions = [...new Set(datas.map((tree) => tree.properties.oshonos))];
+	const [oshonos, setOshonos] = useState(null);
+
+	useEffect(() => {
+		if (oshonos) {
+			const newTrees = datas.filter((tree) => tree.properties.oshonos === oshonos);
+			setTrees(newTrees);
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [oshonos]);
+
+	/* orokbefogado options */
+	const orokbefogadoOptions = [...new Set(datas.map((tree) => tree.properties.orokbefogado))].map((el) => {
+		if (el === "") return "Nem";
+		if (el !== "") return "Igen";
+	});
+	const [orokbefogado, setOrokbefogado] = useState(null);
+
+	useEffect(() => {
+		if (orokbefogado) {
+			if (orokbefogado === "Igen") {
+				const newTrees = datas.filter((tree) => tree.properties.orokbefogado !== "");
+				setTrees(newTrees);
+			}
+			if (orokbefogado === "Nem") {
+				const newTrees = datas.filter((tree) => tree.properties.orokbefogado === "");
+				setTrees(newTrees);
+			}
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [orokbefogado]);
+
+	/* kivagas options */
+	const kivagasOptions = [...new Set(datas.map((tree) => tree.properties.kivagas_oka))].map((el) => {
+		if (el === "") return "Nem";
+		if (el !== "") return "Igen";
+	});
+
+	const [kivagas, setKivagas] = useState(null);
+
+	useEffect(() => {
+		if (kivagas) {
+			if (kivagas === "Igen") {
+				const newTrees = datas.filter((tree) => tree.properties.kivagas_oka !== "");
+				setTrees(newTrees);
+			}
+			if (kivagas === "Nem") {
+				const newTrees = datas.filter((tree) => tree.properties.kivagas_oka === "");
+				setTrees(newTrees);
+			}
+		} else {
+			setTrees(datas);
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [kivagas]);
 
 	return (
 		<aside className="sidebar">
-			<h2>Szűrő</h2>
+			<h2>Szűrő - {trees.length} találat</h2>
 			{/* sorszám inputnumber field*/}
-			{/* <div className="flex flex-column">
+			<div className="flex flex-column">
 				<label
 					htmlFor="sorszam"
-					className="font-bold block mb-2"
+					className=" block mb-2"
 				>
 					Sorszám
 				</label>
@@ -162,15 +278,23 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 						rounded
 						text
 						aria-label="Filter"
-						onClick={() => console.log()}
+						onClick={() => handleSorszamClick()}
+					/>
+					<Button
+						icon="pi pi-times"
+						rounded
+						text
+						severity="danger"
+						aria-label="Cancel"
+						onClick={() => resetSorszamClick()}
 					/>
 				</div>
-			</div> */}
+			</div>
 			{/* parkrészlet dropdown */}
-			<div className="card flex justify-content-center">
+			<div className=" flex justify-content-center flex-column">
 				<label
 					htmlFor="parkreszlet"
-					className="font-bold block mb-2"
+					className=" block mb-2 mt-1"
 				>
 					Parkrészlet
 				</label>
@@ -184,18 +308,114 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 					className="w-full md:w-14rem"
 				/>
 			</div>
-			{/* 
-      Dropdown
-      Fajta	
-Típus	
-Jellegzetes-e	
-Őshonos-e
-
-*/}
-
-			{/* örökbefogadott igen nem orokbefogadott van e text itt igen, nincs nem */}
-
-			{/* kivagas_oka Kivágandó: igen nem */}
+			{/* fajta dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="fajta"
+					className=" block mb-2 mt-1"
+				>
+					Fajta
+				</label>
+				<Dropdown
+					value={fajta}
+					onChange={(e) => setFajta(e.value)}
+					options={fajtaOptions}
+					htmlFor="fajta"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
+			{/* tipus dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="tipus"
+					className=" block mb-2 mt-1"
+				>
+					Fajta
+				</label>
+				<Dropdown
+					value={tipus}
+					onChange={(e) => setTipus(e.value)}
+					options={tipusOptions}
+					htmlFor="tipus"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
+			{/* jellegzetes dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="jellegzetes"
+					className=" block mb-2 mt-1"
+				>
+					Jellegzetes
+				</label>
+				<Dropdown
+					value={jellegzetes}
+					onChange={(e) => setJellegzetes(e.value)}
+					options={jellegzetesOptions}
+					htmlFor="jellegzetes"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
+			{/* oshonos dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="oshonos"
+					className=" block mb-2 mt-1"
+				>
+					Őshonos
+				</label>
+				<Dropdown
+					value={oshonos}
+					onChange={(e) => setOshonos(e.value)}
+					options={oshonosOptions}
+					htmlFor="oshonos"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
+			{/* orokbefogado dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="orokbefogado"
+					className=" block mb-2 mt-1"
+				>
+					Örökbefogadott
+				</label>
+				<Dropdown
+					value={orokbefogado}
+					onChange={(e) => setOrokbefogado(e.value)}
+					options={orokbefogadoOptions}
+					htmlFor="orokbefogado"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
+			{/* kivagas dropdown */}
+			<div className=" flex justify-content-center flex-column">
+				<label
+					htmlFor="kivagas"
+					className=" block mb-2 mt-1"
+				>
+					Kivágandó
+				</label>
+				<Dropdown
+					value={kivagas}
+					onChange={(e) => setKivagas(e.value)}
+					options={kivagasOptions}
+					htmlFor="kivagas"
+					showClear
+					placeholder="Válassz"
+					className="w-full md:w-14rem"
+				/>
+			</div>
 		</aside>
 	);
 };
@@ -225,7 +445,7 @@ function App() {
 			<MapContainer
 				className="fakataszter-map"
 				center={[47.574, 18.893]}
-				zoom={17}
+				zoom={18}
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
