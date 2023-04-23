@@ -146,7 +146,7 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 
 	useEffect(() => {
 		if (parkreszlet) {
-			const newTrees = datas.filter((tree) => tree.properties.kapcsolodo === parkreszlet);
+			const newTrees = datas.filter((tree) => tree.properties.parkreszlet === parkreszlet);
 			setTrees(newTrees);
 		} else {
 			setTrees(datas);
@@ -428,7 +428,6 @@ function App() {
 	const [trees, setTrees] = useState([]);
 	/* For basic datas that are not modified */
 	const [datas, setDatas] = useState([]);
-	console.log(datas);
 
 	/* Mobile sidebar */
 	// const [visible, setVisible] = useState(false);
@@ -462,7 +461,6 @@ function App() {
 
 				{trees.map((tree, index) => {
 					const position = tree.geometry.coordinates;
-					console.log(tree.properties.sorszam, position);
 
 					return (
 						<Marker
