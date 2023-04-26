@@ -2,6 +2,24 @@
 	margin: 0 auto;
 }
 
+
+h2, label{
+	color: black;
+}
+.leaflet-pane h2{
+	color: darkcyan;
+	margin: 0 0 0px 0;
+}
+.leaflet-pane h3{
+	color: green;
+	margin: 0 0 5px 0;
+}
+
+.leaflet-popup-content-wrapper, .tree-popup-content h2, .tree-popup-content h3{
+	width: 320px;
+
+}
+
 .logo {
 	height: 6em;
 	padding: 1.5em;
