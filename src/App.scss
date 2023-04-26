@@ -2,22 +2,23 @@
 	margin: 0 auto;
 }
 
-
-h2, label{
+h2,
+label {
 	color: black;
 }
-.leaflet-pane h2{
+.leaflet-pane h2 {
 	color: darkcyan;
 	margin: 0 0 0px 0;
 }
-.leaflet-pane h3{
+.leaflet-pane h3 {
 	color: green;
 	margin: 0 0 5px 0;
 }
 
-.leaflet-popup-content-wrapper, .tree-popup-content h2, .tree-popup-content h3{
+.leaflet-popup-content-wrapper,
+.tree-popup-content h2,
+.tree-popup-content h3 {
 	width: 320px;
-
 }
 
 .logo {
@@ -73,9 +74,11 @@ h2, label{
 		box-sizing: border-box;
 		padding: 2rem;
 		position: absolute;
-		top: 2rem;
-		right: 2rem;
+		top: 2.5rem;
 		max-width: 375px;
+		@media only screen and (max-width: 420px) {
+			max-width: 325px;
+		}
 		height: auto;
 		z-index: 1000;
 		background-color: white;
@@ -85,11 +88,25 @@ h2, label{
 			margin-top: 10px;
 			font-weight: 600;
 		}
+		transition: 0.75s ease-in-out;
+		&.active {
+			right: 2rem;
+			@media only screen and (max-width: 420px) {
+				right: 1rem;
+			}
+		}
+		&.not-active {
+			right: -100vw;
+			@media only screen and (min-width: 800px) {
+				right: 2rem;
+			}
+		}
 	}
-}
 
-
-//Elod
-.elod{
-	color:blue;
+	.hamburger {
+		position: absolute;
+		top: 0;
+		right: 0;
+		z-index: 10000;
+	}
 }

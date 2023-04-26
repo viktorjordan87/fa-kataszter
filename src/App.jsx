@@ -4,7 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { InputNumber } from "primereact/inputnumber";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
-// import { Sidebar as PrimeSidebar } from "primereact/sidebar";
+import Hamburger from "./Hamburger/Hamburger";
 
 //core
 import "primereact/resources/primereact.min.css";
@@ -17,7 +17,6 @@ import "primeicons/primeicons.css";
 
 //primeflex
 import "primeflex/primeflex.css";
-
 
 //<h2> {properties.fajtanev_magyar + " (" + properties.fajtanev + ")"}</h2>
 /*
@@ -73,14 +72,11 @@ import "primeflex/primeflex.css";
 
 */
 
-
-
 const Content = ({ tree }) => {
 	const properties = tree.properties;
 
 	return (
 		<div className="tree-popup-content">
-			
 			<h2>{properties.fajtanev_magyar}</h2>
 			<h3>{properties.fajtanev}</h3>
 			<table width="300">
@@ -93,7 +89,7 @@ const Content = ({ tree }) => {
 						<th>Parkrészlet</th>
 						<td>{properties.kapcsolodo}</td>
 					</tr>
-					
+
 					<tr>
 						<th>Fajta</th>
 						<td>{properties.fajta}</td>
@@ -114,8 +110,6 @@ const Content = ({ tree }) => {
 						<th>Törzsátmérő</th>
 						<td>{properties.torzsatmero} cm</td>
 					</tr>
-					
-					
 				</tbody>
 			</table>
 			<h3>Örökbefogadás</h3>
@@ -131,7 +125,6 @@ const Content = ({ tree }) => {
 					</tr>
 				</tbody>
 			</table>
-			
 		</div>
 	);
 };
@@ -139,6 +132,11 @@ const Content = ({ tree }) => {
 const Sidebar = ({ datas, trees, setTrees }) => {
 	/* sorszam */
 	const [sorszam, setSorszam] = useState();
+
+	const screenSize = window.screen.width <= 800;
+
+	/* Hamburger menu */
+	const [open, setOpen] = useState(false);
 
 	const handleSorszamClick = () => {
 		if (sorszam) {
@@ -272,168 +270,177 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 	}, [kivagas]);
 
 	return (
-		<aside className="sidebar">
-			<h2>Szűrő ({trees.length} találat)</h2>
-			{/* sorszám inputnumber field*/}
-			<div className="flex flex-column">
-				<label
-					htmlFor="sorszam"
-					className=" block mb-2"
-				>
-					Sorszám
-				</label>
-				<div className="flex flex-row">
-					<InputNumber
-						inputId="sorszam"
-						value={sorszam}
-						onChange={(e) => setSorszam(e.value)}
-						minFractionDigits={0}
-						maxFractionDigits={0}
-					/>
-					<Button
-						icon="pi pi-search"
-						rounded
-						text
-						aria-label="Filter"
-						onClick={() => handleSorszamClick()}
-					/>
-					<Button
-						icon="pi pi-times"
-						rounded
-						text
-						severity="danger"
-						aria-label="Cancel"
-						onClick={() => resetSorszamClick()}
+		<>
+			{screenSize && (
+				<Hamburger
+					type="3dy"
+					isActive={open}
+					setIsActive={setOpen}
+				/>
+			)}
+			<aside className={`sidebar ${screenSize && open ? "active" : "not-active"}`}>
+				<h2>Szűrő ({trees.length} találat)</h2>
+				{/* sorszám inputnumber field*/}
+				<div className="flex flex-column">
+					<label
+						htmlFor="sorszam"
+						className=" block mb-2"
+					>
+						Sorszám
+					</label>
+					<div className="flex flex-row">
+						<InputNumber
+							inputId="sorszam"
+							value={sorszam}
+							onChange={(e) => setSorszam(e.value)}
+							minFractionDigits={0}
+							maxFractionDigits={0}
+						/>
+						<Button
+							icon="pi pi-search"
+							rounded
+							text
+							aria-label="Filter"
+							onClick={() => handleSorszamClick()}
+						/>
+						<Button
+							icon="pi pi-times"
+							rounded
+							text
+							severity="danger"
+							aria-label="Cancel"
+							onClick={() => resetSorszamClick()}
+						/>
+					</div>
+				</div>
+				{/* parkrészlet dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="parkreszlet"
+						className=" block mb-2 mt-1"
+					>
+						Parkrészlet
+					</label>
+					<Dropdown
+						value={parkreszlet}
+						onChange={(e) => setParkreszlet(e.value)}
+						options={parkreszletOptions}
+						htmlFor="parkreszlet"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
 					/>
 				</div>
-			</div>
-			{/* parkrészlet dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="parkreszlet"
-					className=" block mb-2 mt-1"
-				>
-					Parkrészlet
-				</label>
-				<Dropdown
-					value={parkreszlet}
-					onChange={(e) => setParkreszlet(e.value)}
-					options={parkreszletOptions}
-					htmlFor="parkreszlet"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* fajta dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="fajta"
-					className=" block mb-2 mt-1"
-				>
-					Fajta
-				</label>
-				<Dropdown
-					value={fajta}
-					onChange={(e) => setFajta(e.value)}
-					options={fajtaOptions}
-					htmlFor="fajta"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* tipus dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="tipus"
-					className=" block mb-2 mt-1"
-				>
-					Fajta
-				</label>
-				<Dropdown
-					value={tipus}
-					onChange={(e) => setTipus(e.value)}
-					options={tipusOptions}
-					htmlFor="tipus"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* jellegzetes dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="jellegzetes"
-					className=" block mb-2 mt-1"
-				>
-					Jellegzetes
-				</label>
-				<Dropdown
-					value={jellegzetes}
-					onChange={(e) => setJellegzetes(e.value)}
-					options={jellegzetesOptions}
-					htmlFor="jellegzetes"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* oshonos dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="oshonos"
-					className=" block mb-2 mt-1"
-				>
-					Őshonos
-				</label>
-				<Dropdown
-					value={oshonos}
-					onChange={(e) => setOshonos(e.value)}
-					options={oshonosOptions}
-					htmlFor="oshonos"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* orokbefogado dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="orokbefogado"
-					className=" block mb-2 mt-1"
-				>
-					Örökbefogadott
-				</label>
-				<Dropdown
-					value={orokbefogado}
-					onChange={(e) => setOrokbefogado(e.value)}
-					options={[...new Set(orokbefogadoOptions)]}
-					htmlFor="orokbefogado"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-			{/* kivagas dropdown */}
-			<div className=" flex justify-content-center flex-column">
-				<label
-					htmlFor="kivagas"
-					className=" block mb-2 mt-1"
-				>
-					Kivágandó
-				</label>
-				<Dropdown
-					value={kivagas}
-					onChange={(e) => setKivagas(e.value)}
-					options={[...new Set(kivagasOptions)]}
-					htmlFor="kivagas"
-					showClear
-					placeholder="Válassz"
-					className="w-full md:w-14rem"
-				/>
-			</div>
-		</aside>
+				{/* fajta dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="fajta"
+						className=" block mb-2 mt-1"
+					>
+						Fajta
+					</label>
+					<Dropdown
+						value={fajta}
+						onChange={(e) => setFajta(e.value)}
+						options={fajtaOptions}
+						htmlFor="fajta"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+				{/* tipus dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="tipus"
+						className=" block mb-2 mt-1"
+					>
+						Fajta
+					</label>
+					<Dropdown
+						value={tipus}
+						onChange={(e) => setTipus(e.value)}
+						options={tipusOptions}
+						htmlFor="tipus"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+				{/* jellegzetes dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="jellegzetes"
+						className=" block mb-2 mt-1"
+					>
+						Jellegzetes
+					</label>
+					<Dropdown
+						value={jellegzetes}
+						onChange={(e) => setJellegzetes(e.value)}
+						options={jellegzetesOptions}
+						htmlFor="jellegzetes"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+				{/* oshonos dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="oshonos"
+						className=" block mb-2 mt-1"
+					>
+						Őshonos
+					</label>
+					<Dropdown
+						value={oshonos}
+						onChange={(e) => setOshonos(e.value)}
+						options={oshonosOptions}
+						htmlFor="oshonos"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+				{/* orokbefogado dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="orokbefogado"
+						className=" block mb-2 mt-1"
+					>
+						Örökbefogadott
+					</label>
+					<Dropdown
+						value={orokbefogado}
+						onChange={(e) => setOrokbefogado(e.value)}
+						options={[...new Set(orokbefogadoOptions)]}
+						htmlFor="orokbefogado"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+				{/* kivagas dropdown */}
+				<div className=" flex justify-content-center flex-column">
+					<label
+						htmlFor="kivagas"
+						className=" block mb-2 mt-1"
+					>
+						Kivágandó
+					</label>
+					<Dropdown
+						value={kivagas}
+						onChange={(e) => setKivagas(e.value)}
+						options={[...new Set(kivagasOptions)]}
+						htmlFor="kivagas"
+						showClear
+						placeholder="Válassz"
+						className="w-full "
+					/>
+				</div>
+			</aside>
+		</>
 	);
 };
 
@@ -445,7 +452,6 @@ function App() {
 
 	/* Mobile sidebar */
 	// const [visible, setVisible] = useState(false);
-	// const screenSize = window.screen.width <= 800;
 
 	const getData = async () => {
 		const response = await fetch("https://fakataszter.s3.eu-central-1.amazonaws.com/fakataszter.geojson");
@@ -469,8 +475,6 @@ function App() {
 				zoom={18}
 				maxZoom={23}
 				minZoom={17}
-				
-					
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
