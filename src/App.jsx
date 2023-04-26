@@ -18,47 +18,14 @@ import "primeicons/primeicons.css";
 //primeflex
 import "primeflex/primeflex.css";
 
-const Content = ({ tree }) => {
-	const properties = tree.properties;
 
-	return (
-		<div className="tree-popup-content">
-			<h2> {properties.fajtanev_magyar + " (" + properties.fajtanev + ")"}</h2>
-			<table>
-				<tbody>
-					<tr>
-						<th>Sorszám</th>
-						<td>{properties.sorszam}</td>
-					</tr>
-					<tr>
-						<th>Parkrészlet</th>
-						<td>{properties.kapcsolodo}</td>
-					</tr>
-					<tr>
+//<h2> {properties.fajtanev_magyar + " (" + properties.fajtanev + ")"}</h2>
+/*
+<tr>
 						<th>Kapcsolódó fa</th>
 						<td>{properties.kapcsolodo}</td>
 					</tr>
-					<tr>
-						<th>Fajta</th>
-						<td>{properties.fajta}</td>
-					</tr>
-					<tr>
-						<th>Típus</th>
-						<td>{properties.tipus}</td>
-					</tr>
-					<tr>
-						<th>Jellegzetes-e</th>
-						<td>{properties.jellegzetes}</td>
-					</tr>
-					<tr>
-						<th>Őshonos-e</th>
-						<td>{properties.oshonos}</td>
-					</tr>
-					<tr>
-						<th>Törzsátmérő</th>
-						<td>{properties.torzsatmero} cm</td>
-					</tr>
-					<tr>
+<tr>
 						<th>Lombk. átmérő</th>
 						<td> {properties.lombkorona_atmero}m</td>
 					</tr>
@@ -74,26 +41,11 @@ const Content = ({ tree }) => {
 						<th>Koronaállapot</th>
 						<td>{properties.korona_allapot}</td>
 					</tr>
-					<tr>
+<tr>
 						<th>Megjelenés</th>
 						<td>{properties.megjelenes}</td>
 					</tr>
-				</tbody>
-			</table>
-			<h3>Örökbefogadás</h3>
-			<table>
-				<tbody>
-					<tr>
-						<th>Örökbefogadó neve</th>
-						<td>{properties.orokbefogado}</td>
-					</tr>
-					<tr>
-						<th>Örökbefogadás alkalma</th>
-						<td>{properties.orokbe_celja}</td>
-					</tr>
-				</tbody>
-			</table>
-			<h3>Kezelési terv</h3>
+					<h3>Kezelési terv</h3>
 			<table>
 				<tbody>
 					<tr>
@@ -118,6 +70,68 @@ const Content = ({ tree }) => {
 					</tr>
 				</tbody>
 			</table>
+
+*/
+
+
+
+const Content = ({ tree }) => {
+	const properties = tree.properties;
+
+	return (
+		<div className="tree-popup-content">
+			
+			<h2>{properties.fajtanev_magyar}</h2>
+			<h3>{properties.fajtanev}</h3>
+			<table width="300">
+				<tbody>
+					<tr>
+						<th>Sorszám</th>
+						<td>{properties.sorszam}</td>
+					</tr>
+					<tr>
+						<th>Parkrészlet</th>
+						<td>{properties.kapcsolodo}</td>
+					</tr>
+					
+					<tr>
+						<th>Fajta</th>
+						<td>{properties.fajta}</td>
+					</tr>
+					<tr>
+						<th>Típus</th>
+						<td>{properties.tipus}</td>
+					</tr>
+					<tr>
+						<th>Jellegzetes-e</th>
+						<td>{properties.jellegzetes}</td>
+					</tr>
+					<tr>
+						<th>Őshonos-e</th>
+						<td>{properties.oshonos}</td>
+					</tr>
+					<tr>
+						<th>Törzsátmérő</th>
+						<td>{properties.torzsatmero} cm</td>
+					</tr>
+					
+					
+				</tbody>
+			</table>
+			<h3>Örökbefogadás</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th>Örökbefogadó neve</th>
+						<td>{properties.orokbefogado}</td>
+					</tr>
+					<tr>
+						<th>Örökbefogadás alkalma</th>
+						<td>{properties.orokbe_celja}</td>
+					</tr>
+				</tbody>
+			</table>
+			
 		</div>
 	);
 };
@@ -259,7 +273,7 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 
 	return (
 		<aside className="sidebar">
-			<h2>Szűrő - {trees.length} találat</h2>
+			<h2>Szűrő ({trees.length} találat)</h2>
 			{/* sorszám inputnumber field*/}
 			<div className="flex flex-column">
 				<label
@@ -453,6 +467,10 @@ function App() {
 				className="fakataszter-map"
 				center={[47.574, 18.893]}
 				zoom={18}
+				maxZoom={23}
+				minZoom={17}
+				
+					
 			>
 				<TileLayer
 					attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
