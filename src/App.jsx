@@ -18,60 +18,6 @@ import "primeicons/primeicons.css";
 //primeflex
 import "primeflex/primeflex.css";
 
-//<h2> {properties.fajtanev_magyar + " (" + properties.fajtanev + ")"}</h2>
-/*
-<tr>
-						<th>Kapcsolódó fa</th>
-						<td>{properties.kapcsolodo}</td>
-					</tr>
-<tr>
-						<th>Lombk. átmérő</th>
-						<td> {properties.lombkorona_atmero}m</td>
-					</tr>
-					<tr>
-						<th>Gyökérállapot</th>
-						<td>{properties.gyokerzet_allapot}</td>
-					</tr>
-					<tr>
-						<th>Törzsállapot</th>
-						<td>{properties.torzs_allapot}</td>
-					</tr>
-					<tr>
-						<th>Koronaállapot</th>
-						<td>{properties.korona_allapot}</td>
-					</tr>
-<tr>
-						<th>Megjelenés</th>
-						<td>{properties.megjelenes}</td>
-					</tr>
-					<h3>Kezelési terv</h3>
-			<table>
-				<tbody>
-					<tr>
-						<th>Esetleges kivágás oka</th>
-						<td>{properties.kivagas_oka}</td>
-					</tr>
-					<tr>
-						<th>Esetleges kidőléskor teendő</th>
-						<td>{properties.kidoles_teendo}</td>
-					</tr>
-					<tr>
-						<th>Szakértői jelentés</th>
-						<td>{properties.szakertoi_jelentes}</td>
-					</tr>
-					<tr>
-						<th>Utolsó ellenőrzés dátuma</th>
-						<td>{properties.utolso_ellenorzes}</td>
-					</tr>
-					<tr>
-						<th>Egyéb megjegyzés</th>
-						<td>{properties.egyeb_megj}</td>
-					</tr>
-				</tbody>
-			</table>
-
-*/
-
 const Content = ({ tree }) => {
 	const properties = tree.properties;
 
@@ -132,8 +78,11 @@ const Content = ({ tree }) => {
 const Sidebar = ({ datas, trees, setTrees }) => {
 	/* sorszam */
 	const [sorszam, setSorszam] = useState();
-
 	const screenSize = window.screen.width <= 800;
+
+	/* Use search params */
+	const searchParams = new URLSearchParams(document.location.search);
+	const queryValue = searchParams.get("orokbefogadott");
 
 	/* Hamburger menu */
 	const [open, setOpen] = useState(false);
@@ -228,6 +177,16 @@ const Sidebar = ({ datas, trees, setTrees }) => {
 		if (el !== "") return "Igen";
 	});
 	const [orokbefogado, setOrokbefogado] = useState(null);
+
+	//Ha van searchparam query, akkor beállítja a szűrőt alapértelmezettre
+	//http://localhost:5173/?orokbefogadott=igen
+	useEffect(() => {
+		if (queryValue === "igen") {
+			const newTrees = datas.filter((tree) => tree.properties.orokbefogado !== "");
+			setTrees(newTrees);
+			setOrokbefogado("Igen");
+		}
+	}, []);
 
 	useEffect(() => {
 		if (orokbefogado) {
