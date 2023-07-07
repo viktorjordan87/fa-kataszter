@@ -25,6 +25,7 @@ const Content = ({ tree }) => {
 		<div className="tree-popup-content">
 			<h2>{properties.fajtanev_magyar}</h2>
 			<h3>{properties.fajtanev}</h3>
+			<img src="{properties.foto1}" height="75"></img>
 			<table width="300">
 				<tbody>
 					<tr>
