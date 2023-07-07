@@ -25,43 +25,40 @@ const Content = ({ tree }) => {
 		<div className="tree-popup-content">
 			<h2>{properties.fajtanev_magyar}</h2>
 			<h3>{properties.fajtanev}</h3>
-			<img src={properties.foto1} height="50"></img> <img src={properties.foto2} height="50"></img>
-			<table width="300">
-				<tbody>
-					<tr>
-						<th>Sorszám: {properties.sorszam}</th>
-						<td>Parkrészlet: {properties.parkreszlet}</td>
-					</tr>
-					<tr>
-						<th>Fajta: {properties.fajta}</th>
-						<td>Típus: {properties.tipus}</td>
-					</tr>
-					<tr>
-						<th>Jellegzetes: {properties.jellegzetes}</th>
-						<td>Őshonos: {properties.oshonos}</td>
-					</tr>
-					<tr>
-						<th>Törzs átm.: {properties.torzsatmero} cm</th>
-						<td>Lombk. átm.: {properties.lombkorona_atmero} cm</td>
-					</tr>
-					<tr>
-						<th>Gyökér: {properties.gyokerzet_allapot}</th>
-						<td>Törzs: {properties.torzs_allapot}</td>
-					</tr>
-					<tr>
-						<th>Korona:  {properties.korona_allapot}</th>
-						<td>Megjelenés:  {properties.megjelenes}</td>
-					</tr>
-					
-					<tr>
-						<th><a href={properties.szakertoi_jelentes} target="_blank">Szakértői jelentés</a></th>
-						<td></td>
-					</tr>
-					
-				</tbody>
-			</table>
-			<h3>Örökbefogadás</h3>
-			<table>
+			<><img src={properties.foto1} height="50"></img><img src={properties.foto2} height="50"></img><table width="300">
+			<tbody>
+				<tr>
+					<th>Sorszám: {properties.sorszam}</th>
+					<td>Parkrészlet: {properties.parkreszlet}</td>
+				</tr>
+				<tr>
+					<th>Fajta: {properties.fajta}</th>
+					<td>Típus: {properties.tipus}</td>
+				</tr>
+				<tr>
+					<th>Jellegzetes: {properties.jellegzetes}</th>
+					<td>Őshonos: {properties.oshonos}</td>
+				</tr>
+				<tr>
+					<th>Törzs átm.: {properties.torzsatmero} cm</th>
+					<td>Lombk. átm.: {properties.lombkorona_atmero} cm</td>
+				</tr>
+				<tr>
+					<th>Gyökér: {properties.gyokerzet_allapot}</th>
+					<td>Törzs: {properties.torzs_allapot}</td>
+				</tr>
+				<tr>
+					<th>Korona:  {properties.korona_allapot}</th>
+					<td>Megjelenés:  {properties.megjelenes}</td>
+				</tr>
+
+				<tr>
+					<th><a href={properties.szakertoi_jelentes} target="_blank">Szakértői jelentés</a></th>
+					<td></td>
+				</tr>
+
+			</tbody>
+		</table><h3>Örökbefogadás</h3><table>
 				<tbody>
 					<tr>
 						<th>Örökbefogadó: {properties.orokbefogado}</th>
@@ -72,7 +69,7 @@ const Content = ({ tree }) => {
 						<td></td>
 					</tr>
 				</tbody>
-			</table>
+			</table></>
 		</div>
 	);
 };
