@@ -25,49 +25,51 @@ const Content = ({ tree }) => {
 		<div className="tree-popup-content">
 			<h2>{properties.fajtanev_magyar}</h2>
 			<h3>{properties.fajtanev}</h3>
+			<img src={properties.foto1} height="50"></img> <img src={properties.foto2} height="50"></img>
 			<table width="300">
 				<tbody>
 					<tr>
-						<th>Sorszám</th>
-						<td>{properties.sorszam}</td>
+						<th>Sorszám: {properties.sorszam}</th>
+						<td>Parkrészlet: {properties.parkreszlet}</td>
 					</tr>
 					<tr>
-						<th>Parkrészlet</th>
-						<td>{properties.kapcsolodo}</td>
-					</tr>
-
-					<tr>
-						<th>Fajta</th>
-						<td>{properties.fajta}</td>
+						<th>Fajta: {properties.fajta}</th>
+						<td>Típus: {properties.tipus}</td>
 					</tr>
 					<tr>
-						<th>Típus</th>
-						<td>{properties.tipus}</td>
+						<th>Jellegzetes: {properties.jellegzetes}</th>
+						<td>Őshonos: {properties.oshonos}</td>
 					</tr>
 					<tr>
-						<th>Jellegzetes-e</th>
-						<td>{properties.jellegzetes}</td>
+						<th>Törzs átm.: {properties.torzsatmero} cm</th>
+						<td>Lombk. átm.: {properties.lombkorona_atmero} cm</td>
 					</tr>
 					<tr>
-						<th>Őshonos-e</th>
-						<td>{properties.oshonos}</td>
+						<th>Gyökér: {properties.gyokerzet_allapot}</th>
+						<td>Törzs: {properties.torzs_allapot}</td>
 					</tr>
 					<tr>
-						<th>Törzsátmérő</th>
-						<td>{properties.torzsatmero} cm</td>
+						<th>Korona:  {properties.korona_allapot}</th>
+						<td>Megjelenés:  {properties.megjelenes}</td>
 					</tr>
+					
+					<tr>
+						<th><a href={properties.szakertoi_jelentes} target="_blank">Szakértői jelentés</a></th>
+						<td></td>
+					</tr>
+					
 				</tbody>
 			</table>
 			<h3>Örökbefogadás</h3>
 			<table>
 				<tbody>
 					<tr>
-						<th>Örökbefogadó neve</th>
-						<td>{properties.orokbefogado}</td>
+						<th>Örökbefogadó: {properties.orokbefogado}</th>
+						<td>{properties.orokbe_celja}</td>
 					</tr>
 					<tr>
-						<th>Örökbefogadás alkalma</th>
-						<td>{properties.orokbe_celja}</td>
+						<th></th>
+						<td></td>
 					</tr>
 				</tbody>
 			</table>
